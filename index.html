@@ -1,0 +1,622 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axel Bouchery - Portfolio IA & Data</title>
+    
+    <meta name="description" content="Portfolio d'Axel Bouchery, étudiant en IA & Data à Ynov Rennes. Projets Python, GoLang et Web.">
+    <meta property="og:title" content="Axel Bouchery - Portfolio">
+    <meta property="og:description" content="Découvrez mes projets, mon parcours et mon CV.">
+    <meta property="og:image" content="asset/images/moi.jpg">
+    
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self'; 
+        script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
+        style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; 
+        font-src 'self' https://cdnjs.cloudflare.com https://fonts.gstatic.com; 
+        img-src 'self' data: https://images.unsplash.com; 
+        connect-src 'self' https://formspree.io;">
+
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>👨‍💻</text></svg>">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        /* --- 1. CONFIGURATION GÉNÉRALE --- */
+        :root {
+            --bg-color: #0a0a0a;
+            --text-color: #f0f0f0;
+            --accent-color: #888888;
+            --border-color: #333333;
+            --input-bg: #111111;
+            --modal-bg: rgba(10, 10, 10, 0.95);
+            --font-main: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+            --transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        body.light-mode {
+            --bg-color: #ffffff;
+            --text-color: #1a1a1a;
+            --accent-color: #555555;
+            --border-color: #e0e0e0;
+            --input-bg: #f5f5f5;
+            --modal-bg: rgba(255, 255, 255, 0.95);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        html { 
+            scroll-behavior: smooth; 
+            scroll-padding-top: 100px; /* Evite que la navbar cache le titre */
+        }
+        
+        body {
+            background-color: var(--bg-color); color: var(--text-color);
+            font-family: var(--font-main); line-height: 1.6; overflow-x: hidden;
+            transition: background-color 0.4s ease, color 0.4s ease;
+        }
+        
+        body.no-scroll { overflow: hidden; }
+        a { text-decoration: none; color: inherit; transition: var(--transition); }
+
+        /* --- 2. PROGRESS BAR & BACK TO TOP --- */
+        .scroll-progress-container {
+            position: fixed; top: 0; left: 0; width: 100%; height: 4px;
+            z-index: 2000; background: transparent;
+        }
+        .scroll-progress-bar {
+            height: 100%; background: #00ff88; width: 0%;
+            transition: width 0.1s; box-shadow: 0 0 10px #00ff88;
+        }
+
+        .back-to-top {
+            position: fixed; bottom: 30px; right: 30px; width: 45px; height: 45px;
+            background: var(--text-color); color: var(--bg-color); border-radius: 50%;
+            display: flex; justify-content: center; align-items: center; text-decoration: none;
+            opacity: 0; pointer-events: none; transition: all 0.4s ease; z-index: 999;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+        }
+        .back-to-top.active { opacity: 1; pointer-events: auto; transform: translateY(0); }
+        .back-to-top:hover { transform: translateY(-5px); }
+
+        /* --- 3. NAVIGATION --- */
+        nav {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 2rem 5%;
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; background: var(--bg-color);
+            backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+            border-bottom: 1px solid transparent; transition: padding 0.3s;
+        }
+        nav.scrolled { padding: 1rem 5%; border-bottom: 1px solid var(--border-color); }
+        .logo { font-weight: 700; text-transform: uppercase; letter-spacing: 2px; z-index: 1001; }
+        .menu { display: flex; align-items: center; }
+        .menu a { margin-left: 2rem; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; }
+
+        /* Burger Menu */
+        .hamburger { display: none; cursor: pointer; z-index: 1001; width: 30px; height: 20px; position: relative; }
+        .hamburger span {
+            display: block; position: absolute; height: 2px; width: 100%;
+            background: var(--text-color); border-radius: 9px; opacity: 1; left: 0;
+            transform: rotate(0deg); transition: .25s ease-in-out;
+        }
+        .hamburger span:nth-child(1) { top: 0px; }
+        .hamburger span:nth-child(2) { top: 9px; }
+        .hamburger span:nth-child(3) { top: 18px; }
+        .hamburger.open span:nth-child(1) { top: 9px; transform: rotate(135deg); }
+        .hamburger.open span:nth-child(2) { opacity: 0; left: -60px; }
+        .hamburger.open span:nth-child(3) { top: 9px; transform: rotate(-135deg); }
+
+        .theme-toggle-btn {
+            background: transparent; border: 1px solid var(--text-color); color: var(--text-color);
+            width: 40px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            cursor: pointer; margin-left: 2rem; transition: var(--transition);
+        }
+        .theme-toggle-btn:hover { transform: scale(1.1); background: var(--text-color); color: var(--bg-color); }
+
+        /* --- 4. HERO --- */
+        header { min-height: 100vh; padding: 0 5%; display: flex; align-items: center; justify-content: space-between; margin-top: 60px; }
+        .header-content { flex: 1; max-width: 60%; z-index: 2; }
+        h1 { font-size: clamp(3rem, 7vw, 7rem); line-height: 1.1; font-weight: 700; opacity: 0; transform: translateY(30px); animation: fadeUp 1s forwards 0.5s; }
+        .subtitle { margin-top: 2rem; color: var(--accent-color); font-size: 1.2rem; max-width: 600px; opacity: 0; transform: translateY(30px); animation: fadeUp 1s forwards 0.8s; }
+        
+        .header-image { flex: 0 0 350px; height: 450px; overflow: hidden; margin-left: 3rem; position: relative; border-radius: 5px; }
+        .header-image a { display: block; width: 100%; height: 100%; cursor: pointer; }
+        .header-image img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .header-image:hover img { transform: scale(1.05); }
+        .header-image::after {
+            content: '⬇ Télécharger CV'; position: absolute; bottom: 20px; left: 50%; transform: translateX(-50%);
+            background: rgba(0,0,0,0.7); color: white; padding: 5px 15px; border-radius: 20px;
+            font-size: 0.8rem; opacity: 0; transition: var(--transition); pointer-events: none;
+        }
+        .header-image:hover::after { opacity: 1; }
+
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex; align-items: center; gap: 8px; padding: 5px 15px;
+            border: 1px solid var(--accent-color); border-radius: 20px; font-size: 0.85rem;
+            color: var(--accent-color); margin-bottom: 1.5rem; text-transform: uppercase; letter-spacing: 1px;
+        }
+        .status-dot {
+            width: 8px; height: 8px; background-color: #00ff88; border-radius: 50%;
+            box-shadow: 0 0 10px #00ff88; animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.5; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .hero-btns { margin-top: 2rem; display: flex; gap: 1.5rem; align-items: center; }
+        .btn-outline { border-style: dashed; }
+
+        /* --- 5. TIMELINE --- */
+        .timeline-section { padding: 5rem 5%; border-top: 1px solid var(--border-color); }
+        .timeline { position: relative; max-width: 800px; margin: 0 auto; padding-left: 2rem; border-left: 2px solid var(--border-color); }
+        .timeline-item { position: relative; margin-bottom: 3rem; padding-left: 1.5rem; }
+        .timeline-dot {
+            position: absolute; left: -2.6rem; top: 5px; width: 16px; height: 16px;
+            background: var(--bg-color); border: 2px solid var(--text-color); border-radius: 50%; transition: background 0.3s;
+        }
+        .timeline-item:hover .timeline-dot { background: var(--text-color); }
+        .timeline-date { font-size: 0.85rem; color: var(--accent-color); margin-bottom: 0.5rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; }
+        .timeline-content h3 { font-size: 1.2rem; margin-bottom: 0.2rem; color: var(--text-color); }
+        .timeline-content h4 { font-size: 1rem; font-weight: 400; color: var(--text-color); opacity: 0.8; margin-bottom: 0.5rem; }
+        .timeline-content p { font-size: 0.95rem; color: var(--accent-color); }
+
+        /* --- 6. PASSIONS --- */
+        section { padding: 5rem 5%; border-top: 1px solid var(--border-color); }
+        .section-title { font-size: 1rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 4rem; border-bottom: 1px solid var(--border-color); padding-bottom: 1rem; color: var(--accent-color); }
+        .passions-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; }
+        .passion-item i { font-size: 2.5rem; margin-bottom: 1.5rem; color: var(--text-color); }
+        .passion-item h3 { font-size: 1.5rem; margin-bottom: 1rem; font-weight: 500; }
+        .passion-item p { color: var(--accent-color); font-size: 1rem; }
+
+        /* --- 7. PROJETS (GLOW EFFECT) --- */
+        .projects { border-top: none; } 
+        .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 4rem 2rem; }
+        .project-card { cursor: pointer; position: relative; transition: transform 0.3s, box-shadow 0.3s; border-radius: 8px; }
+        
+        .project-card:hover { transform: translateY(-5px); box-shadow: 0 10px 30px -10px rgba(255, 255, 255, 0.1); }
+        body.light-mode .project-card:hover { box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1); }
+
+        .image-container { width: 100%; height: 400px; overflow: hidden; margin-bottom: 1.5rem; background-color: #1a1a1a; border-radius: 8px 8px 0 0; }
+        .image-container img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1); }
+        .project-card:hover .image-container img { transform: scale(1.05); }
+        .project-card::after {
+            content: '+ Voir le détail'; position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            color: white; font-weight: bold; text-transform: uppercase; opacity: 0; transition: var(--transition);
+            pointer-events: none; z-index: 5; text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+        }
+        .project-card:hover::after { opacity: 1; }
+
+        /* --- 8. TECH STACK --- */
+        .tech-stack-container { padding: 3rem 5%; border-bottom: 1px solid var(--border-color); background: linear-gradient(to bottom, transparent, var(--bg-color)); margin-bottom: -1px; }
+        .tech-icons { display: flex; justify-content: center; flex-wrap: wrap; gap: 4rem; }
+        .tech-item { display: flex; flex-direction: column; align-items: center; gap: 0.8rem; color: var(--accent-color); transition: all 0.3s ease; cursor: default; }
+        .tech-item i { font-size: 3rem; transition: transform 0.3s; }
+        .tech-item span { font-size: 0.9rem; font-weight: 600; opacity: 0; transform: translateY(10px); transition: all 0.3s ease; }
+        .tech-item:hover { color: var(--text-color); }
+        .tech-item:hover i { transform: translateY(-10px) scale(1.1); }
+        .tech-item:hover span { opacity: 1; transform: translateY(0); }
+
+        /* --- 9. CONTACT --- */
+        .contact { max-width: 900px; margin: 0 auto; border-top: 1px solid var(--border-color); }
+        .contact h2 { font-size: clamp(2rem, 4vw, 3rem); margin-bottom: 1rem; }
+        .contact p { color: var(--accent-color); margin-bottom: 3rem; font-size: 1.1rem; }
+        .contact-form { display: flex; flex-direction: column; gap: 2rem; margin-bottom: 4rem; }
+        .contact-form input, .contact-form textarea { width: 100%; background: transparent; border: none; border-bottom: 1px solid var(--border-color); padding: 1rem 0; color: var(--text-color); font-family: var(--font-main); font-size: 1rem; transition: var(--transition); }
+        .contact-form input:focus, .contact-form textarea:focus { outline: none; border-bottom-color: var(--text-color); }
+        
+        .btn { padding: 1rem 3rem; border: 1px solid var(--text-color); background: transparent; color: var(--text-color); border-radius: 50px; cursor: pointer; font-size: 1rem; text-transform: uppercase; align-self: flex-start; transition: var(--transition); }
+        .btn:hover { background: var(--text-color); color: var(--bg-color); }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+        .social-links { display: flex; gap: 2rem; font-size: 1.1rem; flex-wrap: wrap; }
+
+        /* --- 10. FOOTER --- */
+        footer { padding: 2rem 5%; text-align: center; font-size: 0.8rem; color: var(--accent-color); margin-top: 2rem; border-top: 1px solid var(--border-color); }
+        .visit-counter { margin-top: 0.5rem; font-size: 0.75rem; opacity: 0.6; }
+
+        /* --- 11. MODALE --- */
+        .modal { display: none; position: fixed; z-index: 2000; left: 0; top: 0; width: 100%; height: 100%; background-color: var(--modal-bg); backdrop-filter: blur(5px); justify-content: center; align-items: center; opacity: 0; transition: opacity 0.3s ease; padding: 1rem; }
+        .modal.open { display: flex; opacity: 1; }
+        .modal-content { background: var(--bg-color); border: 1px solid var(--border-color); padding: 2rem; width: 100%; max-width: 800px; max-height: 85vh; overflow-y: auto; position: relative; transform: translateY(50px); transition: transform 0.4s ease; border-radius: 10px; }
+        .modal.open .modal-content { transform: translateY(0); }
+        .close-btn { position: absolute; top: 1rem; right: 1.5rem; font-size: 2rem; cursor: pointer; color: var(--text-color); z-index: 10; }
+        .modal-img { width: 100%; height: auto; max-height: 400px; object-fit: cover; margin-bottom: 2rem; border-radius: 4px; }
+        .modal-title { font-size: 1.8rem; margin-bottom: 1rem; font-weight: 700; line-height: 1.2; }
+        .modal-desc { color: var(--accent-color); font-size: 1rem; line-height: 1.7; white-space: pre-line; }
+
+        /* ANIMATIONS */
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+        .animated { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        .delay-1 { transition-delay: 0.2s; }
+        .delay-2 { transition-delay: 0.4s; }
+
+        /* MEDIA QUERIES */
+        @media (max-width: 1024px) {
+            header { flex-direction: column-reverse; justify-content: center; text-align: center; padding-top: 2rem; min-height: auto; padding-bottom: 5rem;}
+            .header-content { max-width: 100%; }
+            .header-image { flex: 0 0 250px; height: 250px; width: 250px; margin: 0 0 3rem 0; border-radius: 50%; }
+            .header-image a, .header-image img { border-radius: 50%; }
+            .header-image::after { display: none; }
+        }
+
+        @media (max-width: 768px) {
+            .hamburger { display: block; }
+            .menu { position: fixed; top: 0; right: -100%; width: 100%; height: 100vh; background-color: var(--bg-color); flex-direction: column; justify-content: center; align-items: center; transition: 0.4s ease-in-out; border-left: 1px solid var(--border-color); }
+            .menu.active { right: 0; }
+            .menu a { margin: 1.5rem 0; font-size: 1.5rem; }
+            .theme-toggle-btn { margin-left: 0; margin-top: 2rem; }
+            .gallery, .passions-grid { grid-template-columns: 1fr; }
+            .image-container { height: 250px; }
+            section { padding: 3rem 5%; }
+            nav { padding: 1.5rem 5%; }
+            h1 { font-size: 2.5rem; }
+            .btn { width: 100%; text-align: center; }
+            .hero-btns { flex-direction: column; width: 100%; gap: 1rem; }
+            .hero-btns .btn { margin-left: 0; display: block; }
+            .tech-icons { gap: 2rem; }
+            .tech-item i { font-size: 2rem; }
+            .tech-item span { opacity: 1; transform: translateY(0); }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="scroll-progress-container">
+        <div class="scroll-progress-bar" id="progressBar"></div>
+    </div>
+
+    <nav id="navbar">
+        <div class="logo">Bouchery Axel</div>
+        <div class="hamburger" id="hamburger">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="menu" id="menu">
+            <a href="#parcours" onclick="closeMenu()">Parcours</a>
+            <a href="#passions" onclick="closeMenu()">Passions</a>
+            <a href="#projets" onclick="closeMenu()">Projets</a>
+            <a href="#contact" onclick="closeMenu()">Contact</a>
+            <button id="theme-toggle" class="theme-toggle-btn" aria-label="Changer le thème">
+                <i class="fas fa-sun"></i>
+            </button>
+        </div>
+    </nav>
+
+    <header>
+        <div id="about" class="header-content">
+            <div class="status-badge animated fade-in">
+                <span class="status-dot"></span> Open to Work
+            </div>
+            <h1>Etudiant à Ynov Rennes</h1>
+            <p class="subtitle">
+            Actuellement en formation chez Ynov-Rennes en Bachelor IA-Data, je suis à la recherche d'un job étudiant.
+            Disponible de Lundi / Mardi / Jeudi / Vendredi à partir de 14h.
+            Je suis une personne créative et joviale et mes expériences en animation et en tant qu'arbitre officiel m'ont permis de développer mon sens de l'organisation.
+            </p>
+            
+            <div class="hero-btns animated delay-2">
+                <a href="#contact" class="btn">Me Contacter</a>
+                <a href="asset/cv.pdf" download="CV_Axel_Bouchery.pdf" class="btn btn-outline">
+                    <i class="fas fa-download"></i> CV
+                </a>
+            </div>
+        </div>
+
+        <div class="header-image animated delay-1" title="Cliquez pour télécharger mon CV">
+            <a href="asset/images/CV_Axel_Bouchery.pdf" download="CV_Axel_Bouchery.pdf">
+                <img src="asset/images/moi.jpg" alt="Axel Bouchery">
+            </a>
+        </div>
+    </header>
+
+    <section id="parcours" class="timeline-section">
+        <h2 class="section-title animated">Mon Parcours</h2>
+        <div class="timeline">
+            <div class="timeline-item animated delay-1">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">2025 - Aujourd'hui</div>
+                <div class="timeline-content">
+                    <h3>Etudes</h3>
+                    <h4>Ynov Campus, Rennes</h4>
+                    <p>1ère Année en Bachelor IA & DATA</p>
+                </div>
+            </div>
+            <div class="timeline-item animated delay-2">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">2022 - 2025</div>
+                <div class="timeline-content">
+                    <h3>Lycée</h3>
+                    <h4>Frédéric Ozanam, Cesson</h4>
+                    <p>Bac Général avec Spécialités : Math / Physique-Chimie / Sciences de l'Ingénieur</p>
+                </div>
+            </div>
+            <div class="timeline-item animated delay-2">
+                <div class="timeline-dot"></div>
+                <div class="timeline-date">2019 - 2022</div>
+                <div class="timeline-content">
+                    <h3>Collège</h3>
+                    <h4>Sainte Croix, Châteaugiron</h4>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="passions" class="passions">
+        <div class="section-title">Mes Passions</div>
+        <div class="passions-grid">
+            <div class="passion-item animated">
+                <i class="fas fa-code"></i>
+                <h3>Développement</h3>
+                <p>Créer et donner vie à mon imagination. Apprentissage continu.</p>
+            </div>
+            <div class="passion-item animated delay-1">
+                <i class="fas fa-robot"></i>
+                <h3>I.A. & Prompting</h3>
+                <p>Exploration des modèles d'IA et de la génération d'images pour imager mes idées et développer de nouveaux concepts.</p>
+            </div>
+            <div class="passion-item animated delay-2">
+                <i class="fas fa-gamepad"></i>
+                <h3>Jeux</h3>
+                <p>League of Legend, StarCraft II, Hearthstone et Warframe. Je suis également joueur de TCG.</p>
+            </div>
+        </div>
+    </section>
+
+    <section class="projects" id="projets">
+        <div class="section-title">Sélection de mes travaux</div>
+        <div class="gallery">
+            <div class="project-card animated" 
+                 onclick="openModal('World Legacy', 'Un RPG textuel immersif codé en Golang. Le joueur évolue dans un monde fantastique via le terminal, avec un système de combat au tour par tour, une gestion d\'inventaire et des choix narratifs impactant la fin du jeu.\n\nTechnologies : Golang', 'asset/images/world-legacy.jpg', '#')">
+                <div class="image-container">
+                    <img src="asset/images/world-legacy.jpg" alt="World Legacy" loading="lazy" decoding="async">
+                </div>
+                <div class="project-info">
+                    <h3>World Legacy</h3>
+                    <p class="subtitle">Jeu Video sur Terminal</p>
+                </div>
+            </div>
+
+            <div class="project-card animated" 
+                 onclick="openModal('Connect 4', 'Connect 4 est le nom anglais du Puissance 4. Nous avions comme projet de créer un Puissance 4 fonctionnel pour jouer à plusieurs. La particularité de notre Puissance 4 est sa capacité à pouvoir jouer sur différents postes et à plusieurs joueurs (2 ou plus) et son ambiance Neon avec une musique de fond. \n\nTechnologies : HTML5, Java Script, CSS.', 'asset/images/connect4.png', '#')">
+                <div class="image-container">
+                    <img src="asset/images/connect4.png" alt="Connect 4" loading="lazy" decoding="async">
+                </div>
+                <div class="project-info">
+                    <h3>Connect 4</h3>
+                    <p class="subtitle">Puissance 4</p>
+                </div>
+            </div>
+
+            <div class="project-card animated"
+                 onclick="openModal('NAYRA', 'Être invité à un évènement culturel , un mariage marocain, une fête portugaise ou une cérémonie cambodgienne qui donne souvent envie de porter une tenue traditionnelle authentique. Mais ces vêtements sont difficiles à trouver, très coûteux et peu adaptés à un usage quotidien. Notre projet répond à ce besoin : proposer un service de location de tenues inspirées de différentes cultures, accessibles à distance, pour permettre à chacun de vivre pleinement l’expérience culturelle, tout en valorisant la diversité et le patrimoine mondial de la mode.', 'asset/images/robe-noir.webp', '#')">
+                <div class="image-container">
+                    <img src="asset/images/robe-noir.webp" alt="NAYRA" loading="lazy" decoding="async">
+                </div>
+                <div class="project-info">
+                    <h3>NAYRA</h3>
+                    <p class="subtitle">E-Commerce</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="tech-stack-container animated delay-1">
+        <div class="tech-icons">
+            <div class="tech-item" title="HTML5"><i class="fab fa-html5"></i><span>HTML5</span></div>
+            <div class="tech-item" title="CSS3"><i class="fab fa-css3-alt"></i><span>CSS</span></div>
+            <div class="tech-item" title="JavaScript"><i class="fab fa-js"></i><span>JavaScript</span></div>
+            <div class="tech-item" title="GoLang"><i class="fa-brands fa-golang"></i><span>GoLang</span></div>
+            <div class="tech-item" title="Git"><i class="fab fa-git-alt"></i><span>Git</span></div>
+        </div>
+    </div>
+
+    <section id="contact" class="contact">
+        <h2 class="animated">Me Contacter</h2>
+        <p class="animated delay-1">Intéressé par mes projets ou mon profil ? N'hésitez pas à envoyer un message !</p>
+        
+        <form id="contactForm" class="contact-form animated delay-2" action="https://formspree.io/f/mnnywngg" method="POST">
+            <input type="text" name="nom" placeholder="Votre Nom / Prénom" required>
+            <input type="email" name="_replyto" placeholder="Votre e-mail" required> 
+            <textarea name="message" placeholder="Votre message" required maxlength="1000"></textarea>
+            <div id="form-status" style="margin-bottom: 1rem; font-weight: bold; display: none;"></div>
+            <button type="submit" id="submitBtn" class="btn">Envoyer</button>
+        </form>
+
+        <div class="social-links animated delay-2">
+            <a href="https://www.x.com/AxelBouchery/" target="_blank" rel="noopener noreferrer"><i class="fab fa-x-twitter"></i> 𝕏</a>
+            <a href="https://github.com/Axel-Bouchery" target="_blank" rel="noopener noreferrer"><i class="fab fa-github"></i> GitHub</a>
+            <a href="https://www.instagram.com/axoul.b/" target="_blank" rel="noopener noreferrer"><i class="fab fa-instagram"></i> Instagram</a>
+        </div>
+    </section>
+
+    <footer>
+        &copy; <span id="year"></span> Axel Bouchery - Tous droits réservés.
+        <div class="visit-counter">Vous avez visité ce site <span id="visit-count">0</span> fois.</div>
+        <a href="#" class="back-to-top" id="backToTop"><i class="fas fa-arrow-up"></i></a>
+    </footer>
+
+    <div id="projectModal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal()">&times;</span>
+            <img id="modalImg" class="modal-img" src="" alt="">
+            <h3 id="modalTitle" class="modal-title"></h3>
+            <p id="modalDesc" class="modal-desc"></p>
+            <a id="modalLink" href="#" target="_blank" class="btn" style="margin-top: 1.5rem; display: none;">
+                <i class="fab fa-github"></i> Voir le code
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // --- 1. OPTIMISATION SCROLL (DEBOUNCE) ---
+        function debounce(func, wait) {
+            let timeout;
+            return function(...args) {
+                const later = () => { clearTimeout(timeout); func(...args); };
+                clearTimeout(timeout);
+                timeout = setTimeout(later, wait);
+            };
+        }
+
+        const navbar = document.getElementById('navbar');
+        const backToTopBtn = document.getElementById("backToTop");
+        const progressBar = document.getElementById("progressBar");
+
+        function handleScroll() {
+            const scrollY = window.scrollY;
+            
+            // Navbar effect
+            if (scrollY > 50) navbar.classList.add('scrolled');
+            else navbar.classList.remove('scrolled');
+
+            // Back to top
+            if (scrollY > 300) backToTopBtn.classList.add('active');
+            else backToTopBtn.classList.remove('active');
+
+            // Progress Bar
+            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (scrollY / height) * 100;
+            progressBar.style.width = scrolled + "%";
+        }
+
+        window.addEventListener('scroll', debounce(handleScroll, 10));
+
+        // --- 2. THEME DARK/LIGHT ---
+        const themeToggleBtn = document.getElementById('theme-toggle');
+        const themeIcon = themeToggleBtn.querySelector('i');
+        const body = document.body;
+
+        if (localStorage.getItem('theme') === 'light') {
+            body.classList.add('light-mode');
+            themeIcon.classList.remove('fa-sun');
+            themeIcon.classList.add('fa-moon');
+        }
+
+        themeToggleBtn.addEventListener('click', () => {
+            body.classList.toggle('light-mode');
+            if (body.classList.contains('light-mode')) {
+                themeIcon.classList.remove('fa-sun');
+                themeIcon.classList.add('fa-moon');
+                localStorage.setItem('theme', 'light');
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
+                localStorage.setItem('theme', 'dark');
+            }
+        });
+
+        // --- 3. MENU BURGER ---
+        const hamburger = document.getElementById('hamburger');
+        const menu = document.getElementById('menu');
+
+        hamburger.addEventListener('click', () => {
+            hamburger.classList.toggle('open');
+            menu.classList.toggle('active');
+        });
+
+        function closeMenu() {
+            hamburger.classList.remove('open');
+            menu.classList.remove('active');
+        }
+
+        // --- 4. ANIMATIONS & OBSERVER ---
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = "1";
+                    entry.target.style.transform = "translateY(0)";
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.animated').forEach(el => observer.observe(el));
+
+        // --- 5. MODALE ---
+        const modal = document.getElementById('projectModal');
+        const modalImg = document.getElementById('modalImg');
+        const modalTitle = document.getElementById('modalTitle');
+        const modalDesc = document.getElementById('modalDesc');
+        const modalLink = document.getElementById('modalLink');
+
+        function openModal(title, desc, imgSrc, repoLink) {
+            modal.classList.add('open');
+            body.classList.add('no-scroll');
+            modalTitle.innerText = title;
+            modalDesc.innerText = desc;
+            modalImg.src = imgSrc;
+            
+            if (repoLink && repoLink !== '#') {
+                modalLink.href = repoLink;
+                modalLink.style.display = "inline-block";
+            } else {
+                modalLink.style.display = "none";
+            }
+        }
+
+        function closeModal() {
+            modal.classList.remove('open');
+            body.classList.remove('no-scroll');
+        }
+        window.onclick = (e) => { if (e.target == modal) closeModal(); };
+
+        // --- 6. FORMULAIRE AJAX (ETATS) ---
+        const contactForm = document.getElementById('contactForm');
+        const formStatus = document.getElementById('form-status');
+        const submitBtn = document.getElementById('submitBtn');
+
+        if(contactForm) {
+            contactForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+                const originalBtnText = submitBtn.innerText;
+                submitBtn.innerText = "Envoi...";
+                submitBtn.disabled = true;
+                submitBtn.style.opacity = "0.7";
+                formStatus.style.display = "none";
+
+                try {
+                    const response = await fetch(contactForm.action, {
+                        method: contactForm.method,
+                        body: new FormData(contactForm),
+                        headers: { 'Accept': 'application/json' }
+                    });
+                    if (response.ok) {
+                        formStatus.innerText = "Message envoyé avec succès !";
+                        formStatus.style.color = "#00ff88";
+                        formStatus.style.display = "block";
+                        contactForm.reset();
+                    } else {
+                        throw new Error("Erreur serveur");
+                    }
+                } catch (error) {
+                    formStatus.innerText = "Erreur lors de l'envoi.";
+                    formStatus.style.color = "#ff4444";
+                    formStatus.style.display = "block";
+                } finally {
+                    submitBtn.innerText = originalBtnText;
+                    submitBtn.disabled = false;
+                    submitBtn.style.opacity = "1";
+                }
+            });
+        }
+
+        // --- 7. EXTRAS ---
+        // Année dynamique
+        document.getElementById("year").textContent = new Date().getFullYear();
+        
+        // Compteur visites
+        const visitCountSpan = document.getElementById('visit-count');
+        let visits = localStorage.getItem('visitCount') || 0;
+        visits++;
+        localStorage.setItem('visitCount', visits);
+        visitCountSpan.innerText = visits;
+
+        // Easter Egg
+        console.log("Bienvenue !");
+        console.log("Si vous voyez cela, faites-le moi savoir en m'envoyant : Flag{FOUND}")
+    </script>
+</body>
+</html>
