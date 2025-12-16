@@ -43,7 +43,7 @@ Ce n'est pas juste une page statique. Le site inclut plusieurs fonctionnalités 
     │   ├── moi.jpg
     │   ├── world-legacy.jpg
     │   └── ...
-    └── cv.pdf          # Mon CV au format PDF
+    └── CV_Axel_Bouchery.pdf          # Mon CV au format PDF
 ```
 
 ---
@@ -61,10 +61,12 @@ git clone https://github.com/Axel-Bouchery/portfolio.git
 ## Aperçu
 
 ### Mode Sombre (Défaut)
-<img width="1919" height="1079" alt="Capture d&#39;écran 2025-12-16 215713" src="https://github.com/user-attachments/assets/3dcf4c4d-c68b-4c81-a590-0333124762ed" />
+<img width="1919" height="1079" alt="Capture d&#39;écran 2025-12-16 215713" src="https://github.com/user-attachments/assets/fd1b074d-4b0e-4627-845b-86145fb1e23b" />
+
 
 ### Mode Clair
-<img width="1919" height="1079" alt="Capture d&#39;écran 2025-12-16 215721" src="https://github.com/user-attachments/assets/4e43ac4c-2f6f-4958-9802-36b06802749b" />
+<img width="1919" height="1079" alt="Capture d&#39;écran 2025-12-16 215721" src="https://github.com/user-attachments/assets/0d8e40d9-7939-4962-8c91-3b67af03a8e0" />
+
 
 ---
 
