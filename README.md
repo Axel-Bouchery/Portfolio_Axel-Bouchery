@@ -54,7 +54,7 @@ Si vous souhaitez cloner ce projet pour le tester localement :
 
 1. **Cloner le dépôt :**
 ```shell
-git clone https://github.com/Axel-Bouchery/portfolio.git
+git clone https://github.com/Axel-Bouchery/Portfolio_Axel-Bouchery.git
 ```
 2. **Ouvrir le projet :** Il suffit d'ouvrir le fichier `index.html` dans n'importe quel navigateur moderne (Chrome, Firefox, Edge).
 ---
