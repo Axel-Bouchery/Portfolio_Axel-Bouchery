@@ -60,11 +60,13 @@ git clone https://github.com/Axel-Bouchery/Portfolio_Axel-Bouchery.git
 ## Aperçu
 
 ### Mode Sombre (Défaut)
-<img width="1919" height="1079" alt="Capture d&#39;écran 2025-12-16 215713" src="https://github.com/user-attachments/assets/fd1b074d-4b0e-4627-845b-86145fb1e23b" />
+<img width="1919" height="1074" alt="Capture d&#39;écran 2025-12-17 113048" src="https://github.com/user-attachments/assets/4488a00f-fa39-4321-975a-6a4fff183fa3" />
+
 
 
 ### Mode Clair
-<img width="1919" height="1079" alt="Capture d&#39;écran 2025-12-16 215721" src="https://github.com/user-attachments/assets/0d8e40d9-7939-4962-8c91-3b67af03a8e0" />
+<img width="1919" height="1079" alt="Capture d&#39;écran 2025-12-16 215721" src="https://github.com/user-attachments/assets/84d13b1e-b1f2-43dd-9586-adfac0ba4603" />
+
 
 
 ---
