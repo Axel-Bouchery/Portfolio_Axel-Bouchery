@@ -37,7 +37,6 @@ Ce n'est pas juste une page statique. Le site inclut plusieurs fonctionnalités 
 ```
 /
 ├── index.html          # Fichier principal
-├── README.md           # Documentation
 └── asset/
     ├── images/         # Images des projets et photo de profil
     │   ├── moi.jpg
