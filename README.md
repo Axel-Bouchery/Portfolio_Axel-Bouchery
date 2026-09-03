@@ -1,6 +1,6 @@
 # Portfolio Personnel - Axel Bouchery
 
-Bienvenue sur le dépôt de mon portfolio personnel. Ce site a été conçu pour présenter mon parcours d'étudiant en **IA & Data** à Ynov Rennes, mes compétences techniques et mes projets.
+Bienvenue sur le dépôt de mon portfolio personnel. Ce site a été conçu pour présenter mon parcours d'étudiant en Informatique à l'EPSI, mes compétences techniques et mes projets.
 
 ---
 
@@ -16,7 +16,7 @@ Ce n'est pas juste une page statique. Le site inclut plusieurs fonctionnalités 
 - **Easter Eggs :** ...
 ---
 
-## 🛠️ Stack Technique
+## Stack Technique
 
 - **HTML5 :** Structure sémantique et accessibilité.
 - **CSS3 :**
@@ -32,7 +32,7 @@ Ce n'est pas juste une page statique. Le site inclut plusieurs fonctionnalités 
 
 ---
 
-## 📂 Structure du Projet
+## Structure du Projet
 
 ```
 /
@@ -75,7 +75,7 @@ git clone https://github.com/Axel-Bouchery/Portfolio_Axel-Bouchery.git
 
 **Axel Bouchery**
 
-- Étudiant Bachelor IA & Data @ Ynov Rennes
+- Étudiant Bachelor en Informatique à l'EPSI
 - Rennes, France
 - axel@bouchery.fr
 - [GitHub](https://github.com/Axel-Bouchery)
